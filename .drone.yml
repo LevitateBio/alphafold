@@ -30,8 +30,6 @@ steps:
     image: plugins/gcr
     settings:
       repo: cyrus-containers/alphafold
-      tags:
-        - ${DRONE_COMMIT_BRANCH}
       debug: true
       dockerfile: docker/Dockerfile
       json_key:
