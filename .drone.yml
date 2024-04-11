@@ -21,7 +21,6 @@ steps:
     image: ubuntu:latest
     commands:
       - echo $(cat alphafold/version.py | grep version | grep -oP "\d+\.\d+\.\d+")-cuda-$(cat docker/Dockerfile | grep CUDA | grep -oP '(?<=CUDA=)\d+(\.\d+)*')-$(cat docker/Dockerfile | grep nvidia/cuda | grep -oP 'ubuntu\K[0-9]+\.[0-9]+' | sed 's/^/ubuntu /' | sed 's/ /-/') > .tags
-      - echo $(cat alphafold/version.py | grep version | grep -oP "\d+\.\d+\.\d+") >> .tags
       - echo $(cat .tags)
     when:
       event:
@@ -31,8 +30,6 @@ steps:
     image: plugins/gcr
     settings:
       repo: cyrus-containers/alphafold
-      tags:
-      - $(cat alphafold/version.py | grep version | grep -oP "\d+\.\d+\.\d+")-test
       debug: true
       dockerfile: docker/Dockerfile
       json_key:
@@ -44,8 +41,6 @@ steps:
     image: plugins/gcr
     settings:
       repo: cyrus-containers/alphafold
-      tags:
-        - ${DRONE_TAG}
       debug: true
       dockerfile: docker/Dockerfile
       json_key:
