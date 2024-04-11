@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-# echo "checking out master branch"
-# git checkout master
-# echo "pulling latest changes"
-# git pull
+echo "checking out main branch"
+git checkout main
+echo "pulling latest changes"
+git pull
 
 VERSION=`cat alphafold/version.py | grep version | grep -o "\d*\.\d*\.\d*"`
 CUDA_VERSION=`cat docker/Dockerfile | grep CUDA | ggrep -oP '(?<=CUDA=)\d*(\.\d+)*'`
