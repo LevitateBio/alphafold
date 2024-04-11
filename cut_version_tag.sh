@@ -14,6 +14,6 @@ echo "current git HEAD is \"$(git log --oneline |head -1)\""
 read -p "Would you like to create and push the tag ${FULL_TAG} at the current head of the master branch? (y/n)" proceed
 
 if [[ ${proceed} == "y" ]]; then
-    git tag "${$FULL_TAG}"
+    git tag "${FULL_TAG}"
     git push --tags
 fi
