@@ -12,7 +12,6 @@ steps:
     image: ubuntu:latest
     commands:
       - echo $(cat alphafold/version.py | grep version | grep -oP "\d+\.\d+\.\d+")-$(echo $DRONE_COMMIT_BRANCH | sed 's/[/_-]//g')-$DRONE_BUILD_NUMBER > .tags
-      - echo $(cat alphafold/version.py | grep version | grep -oP "\d+\.\d+\.\d+") >> .tags
       - echo $(cat .tags)
     when:
       event:
@@ -32,6 +31,8 @@ steps:
     image: plugins/gcr
     settings:
       repo: cyrus-containers/alphafold
+      tags:
+      - $(cat alphafold/version.py | grep version | grep -oP "\d+\.\d+\.\d+")-test
       debug: true
       dockerfile: docker/Dockerfile
       json_key:
