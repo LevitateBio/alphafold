@@ -142,6 +142,8 @@ flags.DEFINE_boolean('use_gpu_relax', None, 'Whether to relax on GPU. '
                      'Relax on GPU can be much faster than CPU, so it is '
                      'recommended to enable if possible. GPUs must be available'
                      ' if this setting is enabled.')
+flags.DEFINE_list('excluded_pdbs', [], 'PDB IDs to exclude from'
+                     ' templates.')
 
 FLAGS = flags.FLAGS
 
@@ -494,7 +496,8 @@ def main(argv):
       template_searcher=template_searcher,
       template_featurizer=template_featurizer,
       use_small_bfd=use_small_bfd,
-      use_precomputed_msas=FLAGS.use_precomputed_msas)
+      use_precomputed_msas=FLAGS.use_precomputed_msas,
+      excluded_pdbs=FLAGS.excluded_pdbs)
 
   if run_multimer_system:
     num_predictions_per_model = FLAGS.num_multimer_predictions_per_model

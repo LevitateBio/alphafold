@@ -124,7 +124,8 @@ class DataPipeline:
                use_small_bfd: bool,
                mgnify_max_hits: int = 501,
                uniref_max_hits: int = 10000,
-               use_precomputed_msas: bool = False):
+               use_precomputed_msas: bool = False, 
+               excluded_pdbs: list = []):
     """Initializes the data pipeline."""
     self._use_small_bfd = use_small_bfd
     self.jackhmmer_uniref90_runner = jackhmmer.Jackhmmer(
@@ -146,6 +147,7 @@ class DataPipeline:
     self.mgnify_max_hits = mgnify_max_hits
     self.uniref_max_hits = uniref_max_hits
     self.use_precomputed_msas = use_precomputed_msas
+    self.excluded_pdbs = excluded_pdbs
 
   def process(self, input_fasta_path: str, msa_output_dir: str) -> FeatureDict:
     """Runs alignment tools on the input sequence and creates features."""
@@ -200,6 +202,15 @@ class DataPipeline:
 
     pdb_template_hits = self.template_searcher.get_template_hits(
         output_string=pdb_templates_result, input_sequence=input_sequence)
+    pdb_templates_out_path = os.path.join(msa_output_dir, 'pdb_templates_used.csv')
+    with open(pdb_templates_out_path, 'w') as f:
+        f.write('PDB ID,Chain\n')
+        for hit in pdb_template_hits:
+            pdbid, chain = templates._get_pdb_id_and_chain(hit)
+            if pdbid in self.excluded_pdbs:
+                pdb_template_hits.remove(hit)
+            else:
+                f.write(f'{pdbid},{chain}\n')
 
     if self._use_small_bfd:
       bfd_out_path = os.path.join(msa_output_dir, 'small_bfd_hits.sto')
