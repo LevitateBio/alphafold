@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ARG CUDA=12.0.1
+ARG CUDA=12.0.0
 FROM nvidia/cuda:${CUDA}-cudnn8-runtime-ubuntu18.04
 # FROM directive resets ARGS, so we specify again (the value is retained if
 # previously set).
@@ -57,7 +57,7 @@ ENV LD_LIBRARY_PATH="/opt/conda/lib:$LD_LIBRARY_PATH"
 RUN conda install -qy conda==24.1.2 \
     && conda install -y -c conda-forge \
       openmm=7.7.0 \
-      cuda-toolkit \
+      cuda-toolkit==${CUDA_VERSION} \
       pdbfixer \
       pip \
       python=3.10 \
