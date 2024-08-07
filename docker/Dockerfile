@@ -56,6 +56,7 @@ ENV PATH="/opt/conda/bin:$PATH"
 ENV LD_LIBRARY_PATH="/opt/conda/lib:$LD_LIBRARY_PATH"
 RUN conda install -qy conda==24.1.2 pip python=3.11 \
     && conda install -y -c nvidia cuda=${CUDA_VERSION} cuda-compiler=${CUDA_VERSION} \
+    cuda-runtime=${CUDA_VERSION} \
     && conda install -y -c conda-forge openmm=8.0.0 pdbfixer \
     && conda clean --all --force-pkgs-dirs --yes
 
