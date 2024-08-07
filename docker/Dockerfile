@@ -57,7 +57,7 @@ ENV LD_LIBRARY_PATH="/opt/conda/lib:$LD_LIBRARY_PATH"
 RUN conda install -qy conda==24.1.2 \
     && conda install -y -c conda-forge \
       openmm=7.7.0 \
-      cuda-toolkit==${CUDA_VERSION} \
+      cuda-toolkit \
       pdbfixer \
       pip \
       python=3.10 \
