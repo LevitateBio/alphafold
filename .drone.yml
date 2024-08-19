@@ -11,7 +11,7 @@ steps:
   - name: get version -- branch
     image: ubuntu:latest
     commands:
-      - echo $(cat alphafold/version.py | grep version | grep -oP "\d+\.\d+\.\d+")-$(echo $DRONE_COMMIT_BRANCH | sed 's/[/_-]//g')-$DRONE_BUILD_NUMBER > .tags
+      - echo $(cat VERSION)-alphafold-$(cat alphafold/version.py | grep version | grep -oP "\d+\.\d+\.\d+")-$(echo $DRONE_COMMIT_BRANCH | sed 's/[/_-]//g')-$DRONE_BUILD_NUMBER > .tags
       - echo $(cat .tags)
     when:
       event:
@@ -20,7 +20,7 @@ steps:
   - name: get version -- tag
     image: ubuntu:latest
     commands:
-      - echo $(cat alphafold/version.py | grep version | grep -oP "\d+\.\d+\.\d+")-cuda-$(cat docker/Dockerfile | grep CUDA | grep -oP '(?<=CUDA=)\d+(\.\d+)*')-$(cat docker/Dockerfile | grep nvidia/cuda | grep -oP 'ubuntu\K[0-9]+\.[0-9]+' | sed 's/^/ubuntu /' | sed 's/ /-/') > .tags
+      - echo $(cat VERSION)-alphafold-$(cat alphafold/version.py | grep version | grep -oP "\d+\.\d+\.\d+") > .tags
       - echo $(cat .tags)
     when:
       event:
