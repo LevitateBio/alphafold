@@ -26,7 +26,7 @@ steps:
       event:
         - tag
 
-  - name: release server image -- branch
+  - name: release server image
     image: plugins/gcr
     settings:
       repo: cyrus-containers/alphafold
@@ -34,16 +34,3 @@ steps:
       dockerfile: docker/Dockerfile
       json_key:
         from_secret: dockerconfigjson
-    when:
-      event: push
-
-  - name: release server image -- tag
-    image: plugins/gcr
-    settings:
-      repo: cyrus-containers/alphafold
-      debug: true
-      dockerfile: docker/Dockerfile
-      json_key:
-        from_secret: dockerconfigjson
-    when:
-      event: tag

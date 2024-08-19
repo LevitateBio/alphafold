@@ -14,4 +14,4 @@
 
 """Single source of truth for the AlphaFold version."""
 
-__version__ = '2.4.0'
+__version__ = '2.3.2'
