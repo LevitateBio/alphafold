@@ -35,6 +35,9 @@ RUN apt-get update \
     && apt-get autoremove -y \
     && apt-get clean
 
+# Install CUDA Compatibility packages
+RUN apt-get install -y cuda-compat-12.2
+
 # Compile HHsuite from source.
 RUN git clone --branch v3.3.0 https://github.com/soedinglab/hh-suite.git /tmp/hh-suite \
     && mkdir /tmp/hh-suite/build \
@@ -53,7 +56,7 @@ RUN wget -q -P /tmp \
 
 # Install conda packages.
 ENV PATH="/opt/conda/bin:$PATH"
-ENV LD_LIBRARY_PATH="/usr/local/cuda/compat/:/opt/conda/lib:$LD_LIBRARY_PATH"
+ENV LD_LIBRARY_PATH="/opt/conda/lib:$LD_LIBRARY_PATH"
 RUN conda install -qy conda==24.1.2 pip python=3.11 \
     && conda install -y -c nvidia/label/cuda-${CUDA_VERSION} cuda --strict-channel-priority \
     && conda install -y -c conda-forge openmm=8.0.0 pdbfixer ncurses \
@@ -70,8 +73,6 @@ RUN pip3 install --upgrade pip --no-cache-dir \
       jax==0.4.26 \
       jaxlib==0.4.26+cuda12.cudnn89 \
       -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
-
-RUN apt-get install -y cuda-compat-12.2
 
 # Add SETUID bit to the ldconfig binary so that non-root users can run it.
 RUN chmod u+s /sbin/ldconfig.real
